@@ -2,21 +2,11 @@
 
 let uuid = require('uuid');
 let migrate = require('migrate');
+let config = require('config');
 
 let behaviours = {
   'builder': require('role.builder'),
   'harvester': require('role.harvester'),
-};
-
-let creepRequirements = {
-  builder: {
-    body: [WORK, MOVE, MOVE, CARRY, CARRY],
-    count: 2,
-  },
-  harvester: {
-    body: [WORK, MOVE, MOVE, CARRY, CARRY],
-    count: 4,
-  },
 };
 
 let minAmountOfBots = 4;
@@ -56,19 +46,19 @@ module.exports.loop = function() {
     behaviours[creep.memory.role](spawn, creep);
   });
 
-  Object.keys(creepRequirements).forEach(function(creepType, idx) {
+  Object.keys(config.creepRequirements).forEach(function(creepType, idx) {
     debug({
       _fkt: 'spawnCreeps',
       creepType: creepType,
       currentlyAvailable: currentlyAvailableCreepTypes[creepType],
-      requirement: creepRequirements[creepType],
-      canSpawn: spawn.canCreateCreep(creepRequirements[creepType].body) == OK,
+      requirement: config.creepRequirements[creepType],
+      canSpawn: spawn.canCreateCreep(config.creepRequirements[creepType].body) == OK,
     });
 
     if ((
-        currentlyAvailableCreepTypes[creepType] == undefined || currentlyAvailableCreepTypes[creepType] < creepRequirements[creepType].count
-      ) && spawn.canCreateCreep(creepRequirements[creepType].body) == OK) {
-      spawn.createCreep(creepRequirements[creepType].body, uuid(), {
+        currentlyAvailableCreepTypes[creepType] == undefined || currentlyAvailableCreepTypes[creepType] < config.creepRequirements[creepType].count
+      ) && spawn.canCreateCreep(config.creepRequirements[creepType].body) == OK) {
+      spawn.createCreep(config.creepRequirements[creepType].body, uuid(), {
         mode: 'harvest',
         role: creepType,
       });
