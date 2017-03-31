@@ -3,7 +3,7 @@ let log = require('log');
 let ensureBuilding = function(room, pos, structureType) {
   let found = room.lookAt(pos);
   for (let i = 0; i < found.length; i++) {
-    if (found[i].type == LOOK_STRUCTURES || found[i].type == LOOK_CONSTRUCTION_SITES) {
+    if (found[i].type == LOOK_STRUCTURES || found[i].type == LOOK_CONSTRUCTION_SITES || (found[i].type == 'terrain' && found[i].terrain != 'plain')) {
       return;
     }
   }
@@ -23,21 +23,13 @@ module.exports = function(room) {
         structureType: STRUCTURE_SPAWN
       }
     }).forEach(function(spawn, idx) {
-      let relativeSpots = [
-        [-2, 0],
-        [0, -2],
-        [0, 2],
-        [2, 0],
-        [-2, -2],
-        [-2, 2],
-        [2, -2],
-        [2, 2],
-        [-4, 0],
-        [0, -4],
-        [0, 4],
-        [4, 0],
-        // TODO(kahlers): Add more coords
-      ]
+      let relativeSpots = []
+
+      for (let i = 0; i < 6; i += 2) {
+        for (let j = 0; j < 6; j += 2) {
+          relativeSpots.push([i, j], [i * -1, j], [i * -1, j * -1], [i, j * -1])
+        }
+      }
 
       let toBuild = Math.floor(CONTROLLER_STRUCTURES['extension'][room.controller.level] / 4) * 4;
       relativeSpots.slice(0, toBuild).forEach(function(relCoords) {
