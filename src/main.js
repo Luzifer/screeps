@@ -1,8 +1,11 @@
 'use strict';
 
-let uuid = require('uuid');
-let migrate = require('migrate');
+require('proto');
+
 let config = require('config');
+let construct = require('task.construct');
+let migrate = require('migrate');
+let uuid = require('uuid');
 
 let behaviours = {
   'builder': require('role.builder'),
@@ -65,5 +68,6 @@ module.exports.loop = function() {
     }
   });
 
+  construct(spawn.room);
   cleanMemory();
 };
