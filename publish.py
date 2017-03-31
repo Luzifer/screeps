@@ -23,8 +23,13 @@ def main(args):
             with open(os.path.join(__BASEDIR, filename), 'r') as f:
                 data['modules'][filename[:-3]] = f.read()
 
-    print json.dumps(requests.post('https://screeps.com/api/user/code', json=data,
-                                   auth=(os.environ['EMAIL'], os.environ['PASSWORD'])).json(), indent=2)
+    result = json.dumps(requests.post('https://screeps.com/api/user/code', json=data,
+                                      auth=(os.environ['EMAIL'], os.environ['PASSWORD'])).json(), indent=2)
+
+    if 'error' in result:
+        return 1
+
+    return 0
 
 if __name__ == "__main__":
-    main(sys.argv)
+    sys.exit(main(sys.argv))

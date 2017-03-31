@@ -1,7 +1,5 @@
-default: publish
-
-publish: publish_default
-sim: publish_sim
+default: publish_sim
+prod: publish_master
 
 publish_%: venv
 	venv/bin/python publish.py $*
