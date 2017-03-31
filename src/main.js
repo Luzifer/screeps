@@ -4,6 +4,7 @@ require('proto');
 
 let config = require('config');
 let construct = require('task.construct');
+let log = require('log');
 let migrate = require('migrate');
 let uuid = require('uuid');
 
@@ -14,11 +15,6 @@ let behaviours = {
 
 let minAmountOfBots = 4;
 let creepPreset = [WORK, MOVE, MOVE, CARRY, CARRY];
-
-let debug = function(obj) {
-  obj._level = 'DBG';
-  console.log(JSON.stringify(obj))
-}
 
 let cleanMemory = function() {
   for (var i in Memory.creeps) {
@@ -50,7 +46,7 @@ module.exports.loop = function() {
   });
 
   Object.keys(config.creepRequirements).forEach(function(creepType, idx) {
-    debug({
+    log.debug({
       _fkt: 'spawnCreeps',
       creepType: creepType,
       currentlyAvailable: currentlyAvailableCreepTypes[creepType],
