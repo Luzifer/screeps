@@ -1,7 +1,10 @@
 default: publish
 
-publish: venv
-	venv/bin/python publish.py
+publish: publish_default
+sim: publish_sim
+
+publish_%: venv
+	venv/bin/python publish.py $*
 
 venv: venv/bin/activate
 venv/bin/activate: requirements.txt

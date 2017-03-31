@@ -9,8 +9,12 @@ __BASEDIR = './src'
 
 
 def main(args):
+    branch = 'default'
+    if len(args) == 2:
+        branch = args[1]
+
     data = {
-        'branch': 'default',
+        'branch': branch,
         'modules': {},
     }
 
