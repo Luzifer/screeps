@@ -23,16 +23,26 @@ module.exports = function(room) {
         structureType: STRUCTURE_SPAWN
       }
     }).forEach(function(spawn, idx) {
-      ensureBuilding(room, spawn.pos.getRelativePosition(-2, 0), STRUCTURE_EXTENSION);
-      ensureBuilding(room, spawn.pos.getRelativePosition(0, -2), STRUCTURE_EXTENSION);
-      ensureBuilding(room, spawn.pos.getRelativePosition(0, 2), STRUCTURE_EXTENSION);
-      ensureBuilding(room, spawn.pos.getRelativePosition(2, 0), STRUCTURE_EXTENSION);
-      if (room.controller.level > 2) {
-        ensureBuilding(room, spawn.pos.getRelativePosition(-2, -2), STRUCTURE_EXTENSION);
-        ensureBuilding(room, spawn.pos.getRelativePosition(-2, 2), STRUCTURE_EXTENSION);
-        ensureBuilding(room, spawn.pos.getRelativePosition(2, -2), STRUCTURE_EXTENSION);
-        ensureBuilding(room, spawn.pos.getRelativePosition(2, 2), STRUCTURE_EXTENSION);
-      }
+      let relativeSpots = [
+        [-2, 0],
+        [0, -2],
+        [0, 2],
+        [2, 0],
+        [-2, -2],
+        [-2, 2],
+        [2, -2],
+        [2, 2],
+        [-4, 0],
+        [0, -4],
+        [0, 4],
+        [4, 0],
+        // TODO(kahlers): Add more coords
+      ]
+
+      let toBuild = Math.floor(CONTROLLER_STRUCTURES['extension'][room.controller.level] / 4) * 4;
+      relativeSpots.slice(0, toBuild).forEach(function(relCoords) {
+        ensureBuilding(room, spawn.pos.getRelativePosition(relCoords[0], relCoords[1]), STRUCTURE_EXTENSION);
+      })
     });
   }
 
