@@ -15,7 +15,7 @@ module.exports = function(spawn, creep) {
         creep.moveTo(constructionSites[0]);
       }
     } else {
-      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? 'upgrade' : 'build');
+      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? 'upgrade' : 'harvest');
       if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
         creep.moveTo(creep.room.controller);
       }
