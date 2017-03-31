@@ -5,7 +5,7 @@ require('proto');
 let config = require('config');
 let construct = require('task.construct');
 let log = require('log');
-let migrate = require('migrate');
+let migrate = require('task.migrate');
 let uuid = require('uuid');
 
 let behaviours = {
