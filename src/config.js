@@ -3,6 +3,7 @@ module.exports = {
   creepRequirements: {
     builder: {
       body: [
+        [WORK, WORK, WORK, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY], // Bigger model (8 extensions) - 700E
         [WORK, WORK, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY], // Advanced model (4 extensions) - 500E
         [WORK, MOVE, MOVE, CARRY, CARRY], // Basic model - 300E
       ],
@@ -10,6 +11,7 @@ module.exports = {
     },
     harvester: {
       body: [
+        [WORK, WORK, WORK, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY], // Bigger model (8 extensions) - 700E
         [WORK, WORK, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY], // Advanced model (4 extensions) - 500E
         [WORK, MOVE, MOVE, CARRY, CARRY], // Basic model - 300E
       ],
