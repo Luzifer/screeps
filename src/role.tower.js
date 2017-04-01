@@ -2,6 +2,15 @@ let log = require('log');
 
 module.exports = function(tower) {
 
+  // Heal own units
+  tower.room.find(FIND_MY_CREEPS, {
+    filter: function(c) {
+      return c.hits < c.hitsMax
+    },
+  }).forEach(function(creep) {
+    tower.heal(creep);
+  });
+
   // Kill enemies
   tower.room.find(FIND_HOSTILE_CREEPS).forEach(function(c) {
     log.debug({
