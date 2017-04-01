@@ -67,7 +67,7 @@ module.exports.loop = function() {
     if (currentlyAvailableCreepTypes[creepType] == undefined || currentlyAvailableCreepTypes[creepType] < config.creepRequirements[creepType].count) {
       let body = [];
       for (let i = 0; i < config.creepRequirements[creepType].body.length; i++) {
-        if (bodyPartSum(config.creepRequirements[creepType].body[i]) < spawn.room.energyCapacityAvailable) {
+        if (bodyPartSum(config.creepRequirements[creepType].body[i]) <= spawn.room.energyCapacityAvailable) {
           body = config.creepRequirements[creepType].body[i];
           break;
         }
