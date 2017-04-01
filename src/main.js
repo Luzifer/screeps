@@ -25,6 +25,14 @@ let cleanMemory = function() {
   }
 }
 
+let bodyPartSum = function(parts) {
+  let sum = 0;
+  for (let i = 0; i < parts.length; i++) {
+    sum += BODYPART_COST[parts[i]];
+  }
+  return sum;
+}
+
 module.exports.loop = function() {
   let spawn = Game.spawns['Gate to Hell']; // TODO(kahlers): Replace with better searching logic
   let currentlyAvailableCreepTypes = {};
@@ -56,22 +64,28 @@ module.exports.loop = function() {
   });
 
   Object.keys(config.creepRequirements).forEach(function(creepType, idx) {
-    log.debug({
-      _fkt: 'spawnCreeps',
-      creepType: creepType,
-      currentlyAvailable: currentlyAvailableCreepTypes[creepType],
-      requirement: config.creepRequirements[creepType],
-      canSpawn: spawn.canCreateCreep(config.creepRequirements[creepType].body) == OK,
-    });
+    if (currentlyAvailableCreepTypes[creepType] == undefined || currentlyAvailableCreepTypes[creepType] < config.creepRequirements[creepType].count) {
+      let body = [];
+      for (let i = 0; i < config.creepRequirements[creepType].body.length; i++) {
+        if (bodyPartSum(config.creepRequirements[creepType].body[i]) < spawn.room.energyCapacityAvailable) {
+          body = config.creepRequirements[creepType].body[i];
+          break;
+        }
+      }
 
-    if ((
-        currentlyAvailableCreepTypes[creepType] == undefined || currentlyAvailableCreepTypes[creepType] < config.creepRequirements[creepType].count
-      ) && spawn.canCreateCreep(config.creepRequirements[creepType].body) == OK) {
-      spawn.createCreep(config.creepRequirements[creepType].body, uuid(), {
-        mode: 'harvest',
-        role: creepType,
-        bindingRoom: spawn.room,
-      });
+      if (spawn.canCreateCreep(body) == OK) {
+        log.debug({
+          _fkt: 'spawnCreep',
+          creepType: creepType,
+          body: body,
+          partCost: bodyPartSum(body),
+          ok: spawn.createCreep(body, uuid(), {
+            mode: 'harvest',
+            role: creepType,
+            bindingRoom: spawn.room,
+          }),
+        });
+      }
     }
   });
 
