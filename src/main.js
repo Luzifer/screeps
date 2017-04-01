@@ -60,10 +60,22 @@ module.exports.loop = function() {
       spawn.createCreep(config.creepRequirements[creepType].body, uuid(), {
         mode: 'harvest',
         role: creepType,
+        bindingRoom: spawn.room,
       });
     }
   });
 
-  construct(spawn.room);
+  // Construct things in rooms belonging to us
+  Object.keys(Game.rooms).forEach(function(roomName) {
+    let room = Game.rooms[roomName];
+    if (room.find(FIND_MY_STRUCTURES).length < 1) {
+      // Obviously we found a room we don't possess
+      return;
+    }
+
+    construct(room);
+  });
+
+  // Global cleanup tasks
   cleanMemory();
 };
