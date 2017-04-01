@@ -11,6 +11,7 @@ let uuid = require('uuid');
 let behaviours = {
   'builder': require('role.builder'),
   'harvester': require('role.harvester'),
+  'tower': require('role.tower'),
 };
 
 let minAmountOfBots = 4;
@@ -43,6 +44,15 @@ module.exports.loop = function() {
     }
 
     behaviours[creep.memory.role](spawn, creep);
+  });
+
+  Object.keys(Game.structures).forEach(function(structureName) {
+    let structure = Game.structures[structureName];
+    if (structure.structureType != STRUCTURE_TOWER) {
+      return;
+    }
+
+    behaviours['tower'](structure);
   });
 
   Object.keys(config.creepRequirements).forEach(function(creepType, idx) {
