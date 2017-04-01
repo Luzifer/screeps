@@ -14,8 +14,7 @@ let ensureBuilding = function(room, pos, structureType) {
   });
 }
 
-module.exports = function(room) {
-
+let constructExtensions = function(room) {
   // Construct extensions around the spawn
   if (room.controller.level > 1) {
     room.find(FIND_MY_STRUCTURES, {
@@ -23,7 +22,7 @@ module.exports = function(room) {
         structureType: STRUCTURE_SPAWN
       }
     }).forEach(function(spawn, idx) {
-      let relativeSpots = []
+      let relativeSpots = [];
 
       for (let i = 0; i < 6; i += 2) {
         for (let j = 0; j < 6; j += 2) {
@@ -37,5 +36,24 @@ module.exports = function(room) {
       })
     });
   }
+};
+
+let constructTowers = function(room) {
+  // Construct defense towers
+  let locations = [
+    [25, 25],
+    // TODO(kahlers): Add more locations for towers
+  ];
+
+  locations.forEach(function(loc) {
+    // TODO(kahlers): Add logic to find a suitable spot if location is blocked
+    ensureBuilding(room, new RoomPosition(loc[0], loc[1], room.name), STRUCTURE_TOWER);
+  });
+};
+
+module.exports = function(room) {
+
+  constructExtensions(room);
+  constructTowers(room);
 
 };
