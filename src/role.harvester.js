@@ -19,17 +19,17 @@ module.exports = function(spawn, creep) {
     });
 
     if (spawn.energy < spawn.energyCapacity) {
-      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? creep.memory.mode : 'harvest');
+      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? 'fill' : 'harvest');
       if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
         creep.moveTo(spawn);
       }
     } else if (towers.length > 0) {
-      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? creep.memory.mode : 'harvest');
+      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? 'fill' : 'harvest');
       if (creep.transfer(towers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
         creep.moveTo(towers[0]);
       }
     } else if (extensions.length > 0) {
-      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? creep.memory.mode : 'harvest');
+      creep.memory.mode = (creep.carry[RESOURCE_ENERGY] > 0 ? 'fill' : 'harvest');
       if (creep.transfer(extensions[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
         creep.moveTo(extensions[0]);
       }
