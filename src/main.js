@@ -35,6 +35,10 @@ let bodyPartSum = function(parts) {
 
 module.exports.loop = function() {
   let spawn = Game.spawns['Gate to Hell']; // TODO(kahlers): Replace with better searching logic
+  if (spawn == undefined) {
+    // Game not yet initialized
+    return
+  }
   let currentlyAvailableCreepTypes = {};
 
   Object.keys(Game.creeps).forEach(function(creepName, idx) {
