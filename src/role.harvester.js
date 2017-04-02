@@ -37,7 +37,13 @@ module.exports = function(spawn, creep) {
         }
       });
 
-      if (spawn.energy < spawn.energyCapacity) {
+      if (creep.room.controller.ticksToDowngrade && creep.room.controller.ticksToDowngrade < CONTROLLER_DOWNGRADE[creep.room.controller.level] * .33) {
+        // If controller is in danger of downgrade do something against it!
+        creep.memory.target = {
+          id: creep.room.controller.id,
+          type: 'controller'
+        }
+      } else if (spawn.energy < spawn.energyCapacity) {
         creep.memory.target = {
           id: spawn.id,
           type: 'spawn'
