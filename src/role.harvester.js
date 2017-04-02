@@ -1,3 +1,4 @@
+let _ = require('lodash');
 let log = require('log');
 
 module.exports = function(spawn, creep) {
@@ -6,6 +7,12 @@ module.exports = function(spawn, creep) {
     creep: creep,
     memory: creep.memory,
   })
+
+  if (creep.memory.mode == 'harvest' && _.sum(creep.carry) == creep.carryCapacity) {
+    // Replication of ERR_FULL behaviour as that error does not seem to occur
+    creep.memory.mode = 'move';
+    creep.memory.target = undefined;
+  }
 
   if (creep.memory.target == undefined) {
     if (creep.memory.mode == 'harvest') {
